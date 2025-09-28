@@ -19,6 +19,17 @@ void mousePressed() {
   c = mouseX / sizeCell;
 }
 
+void keyPressed() {
+  if (r != -1 && c != -1) {
+    int val = key - '0';
+    if (val >= 1 && val <= 9) {
+      if (board[r][c] == 0) {          
+        board[r][c] = val;
+      }
+    }
+  }
+}
+
 void loadGame(String fileName) {
   String[] lines = loadStrings(fileName);
   int i = 0;
