@@ -1,5 +1,6 @@
 int[][] board = new int[9][9]; 
 int sizeCell = 60;
+int r = -1, c = -1;           
 
 void setup() {
   size(500, 500);
@@ -10,6 +11,12 @@ void draw() {
   background(255);
   drawGrid();
   drawNumbers();
+  highlightSelected();
+}
+
+void mousePressed() {
+  r = mouseY / sizeCell;
+  c = mouseX / sizeCell;
 }
 
 void loadGame(String fileName) {
@@ -55,5 +62,14 @@ void drawNumbers() {
       j++;
     }
     i++;
+  }
+}
+
+void highlightSelected() {
+  if (r != -1 && c != -1) {
+    noFill();
+    stroke(255, 0, 0);
+    strokeWeight(3);
+    rect(c*sizeCell, r*sizeCell, sizeCell, sizeCell);
   }
 }
