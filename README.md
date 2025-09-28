@@ -3,7 +3,7 @@ int sizeCell = 60;
 int r = -1, c = -1;           
 
 void setup() {
-  size(500, 500);
+  size(9 * sizeCell, 9 * sizeCell);
   loadGame("sudoku.txt"); 
 }
 
