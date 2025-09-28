@@ -24,7 +24,11 @@ void keyPressed() {
     int val = key - '0';
     if (val >= 1 && val <= 9) {
       if (board[r][c] == 0) {          
-        board[r][c] = val;
+        if (checkValid(r, c, val)) {
+          board[r][c] = val;
+        } else {
+          println("ใส่ไม่ได้ที่แถวของ " + r + " ช่อง " + c);
+        }
       }
     }
   }
@@ -47,6 +51,28 @@ void loadGame(String fileName) {
     }
     i++;
   }
+}
+
+boolean checkValid(int row, int col, int val) {
+  int i = 0;
+  while (i < 9) {
+    if (board[row][i] == val) return false; 
+    if (board[i][col] == val) return false; 
+    i++;
+  }
+
+  int startR = (row / 3) * 3;
+  int startC = (col / 3) * 3;
+  i = 0;
+  while (i < 3) {
+    int j = 0;
+    while (j < 3) {
+      if (board[startR + i][startC + j] == val) return false; 
+      j++;
+    }
+    i++;
+  }
+  return true;
 }
 
 void drawGrid() {
