@@ -63,6 +63,43 @@ boolean checkValid(int row, int col, int val) {
     return true;
 }
 
+boolean checkWin() {
+    int i = 0;
+    while (i < 9) {
+        int j = 0;
+        while (j < 9) {
+            if (board[i][j] == 0) return false;
+            if (!checkValidForWin(i, j, board[i][j])) return false;
+            j++;
+        }
+        i++;
+    }
+    return true;
+}
+
+boolean checkValidForWin(int row, int col, int val) {
+    int i = 0;
+    while (i < 9) {
+        if (i != col && board[row][i] == val) return false;
+        if (i != row && board[i][col] == val) return false;
+        i++;
+    }
+    int startR = (row / 3) * 3;
+    int startC = (col / 3) * 3;
+    i = 0;
+    while (i < 3) {
+        int j = 0;
+        while (j < 3) {
+            int rr = startR + i;
+            int cc = startC + j;
+            if (!(rr == row && cc == col) && board[rr][cc] == val) return false;
+            j++;
+        }
+        i++;
+    }
+    return true;
+}
+
 void drawGrid() {
     int i = 0;
     while (i <= 9) {
@@ -105,10 +142,15 @@ void highlightSelected() {
 
 void drawMessage() {
     if (!message.equals("")) {
-        fill(255,0,0);
-        textSize(32);
         textAlign(CENTER, CENTER);
-        text(message, width/2, sizeCell*9 + 50);
+        if (message.equals("!You Win!")) {
+            fill(0, 180, 0); // สีเขียวสด
+            textSize(70); // ตัวใหญ่กว่าปกติ
+        } else {
+            fill(255, 0, 0);
+            textSize(32);
+        }
+        text(message, width/2, sizeCell*9 + 60);
     }
 }
 
@@ -128,7 +170,6 @@ void drawNumberPad() {
         textSize(24);
         textAlign(CENTER, CENTER);
         text(n, x + btnSize/2, y + btnSize/2);
-
         col++;
         if (col >= 3) { col = 0; row++; }
         n++;
@@ -158,7 +199,11 @@ void mousePressed() {
             if (r != -1 && c != -1 && !fixed[r][c]) {
                 if (checkValid(r,c,n)) {
                     board[r][c] = n;
-                    message = "";
+                    if (checkWin()) {
+                        message = "!You Win!";
+                    } else {
+                        message = "";
+                    }
                 } else {
                     message = "Cannot place " + n + " at (" + (r+1) + "," + (c+1) + ")";
                 }
