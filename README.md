@@ -21,7 +21,6 @@ void draw() {
 
 void startGame() {
     loadGame("sudoku.txt");
-    shuffleBoard();
     r = -1;
     c = -1;
     message = "";
@@ -113,44 +112,9 @@ void drawMessage() {
     }
 }
 
-void shuffleBoard() {
-    int[] flat = new int[81];
-    int idx = 0;
-    int i = 0;
-    while (i < 9) {
-        int j = 0;
-        while (j < 9) {
-            flat[idx] = board[i][j];
-            idx++;
-            j++;
-        }
-        i++;
-    }
-    int k = 80;
-    while (k > 0) {
-        int j = int(random(k+1));
-        int tmp = flat[k];
-        flat[k] = flat[j];
-        flat[j] = tmp;
-        k--;
-    }
-    idx = 0;
-    i = 0;
-    while (i < 9) {
-        int j = 0;
-        while (j < 9) {
-            board[i][j] = flat[idx];
-            fixed[i][j] = (flat[idx] != 0);
-            idx++;
-            j++;
-        }
-        i++;
-    }
-}
-
 void drawNumberPad() {
     int btnSize = sizeCell;
-    int x0 = sizeCell*9 + 20;
+    int x0 = sizeCell*9 + 20; 
     int y0 = 0;
     int n = 1;
     int row = 0;
